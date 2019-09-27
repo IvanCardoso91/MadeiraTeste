@@ -22,16 +22,14 @@
     </div>
     <div class="d-flex justify-content-center align-items-center">
         <div class="agenda">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExemploModalCentralizado" onclick="resetForm();">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalCenter" onclick="resetForm();">
                     Adicionar novo contato
             </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="ExemploModalCentralizado" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+            <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="TitleModalCenter" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="TituloModalCentralizado">Adicionar Contato</h5>
+                            <h5 class="modal-title" id="TitleModalCenter"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -39,19 +37,16 @@
                         <div class="modal-body">
                             <h1 class="text-center"></h1>
                             <table>
-                                <tr>
+                                <tr class="d-flex justify-content-center">
                                     <td>
-                                        <form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
+                                        <form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off" class="d-flex flex-column bd-highlight mb-3">
                                             <div>
-                                                <label>Nome</label>
                                                 <input type="text" name="nomeCompleto" id="nomeCompleto" placeholder="Nome">
                                             </div>
                                             <div>
-                                                <label>E-mail</label>
                                                 <input type="text" name="email" id="email" placeholder="E-mail">
                                             </div>
                                             <div>
-                                                <label>Telefone</label>
                                                 <input type="text" name="telefone" id="telefone" placeholder="Telefone">
                                             </div>
                                             <div>
@@ -69,14 +64,17 @@
             <h1 class="text-left">Lista de contatos</h1>
             <table class="lista" id="contatoLista">
                 <thead>
-                    <tr>
+                    <tr class="teste">
                         <th>Nome</th>
                         <th>E-mail</th>
                         <th>Telefone</th>
+                        <th>Opções</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <div>
 
+                    </div>
                 </tbody>
             </table>
         </div>

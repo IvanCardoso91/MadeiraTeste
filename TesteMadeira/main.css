@@ -5,13 +5,7 @@ body {
 
 html {
     height: 100%;
-}
-
-a {
     font-family: 'Roboto';
-    color: white;
-    font-size: 14px;
-    padding-right: 5px;
 }
 
 .titulo {
@@ -35,4 +29,9 @@ a {
 
 .lista {
     width: 100%;
+}
+
+.teste {
+    font-size: 14px;
+    font-family: 'Roboto';
 }

@@ -1,7 +1,8 @@
-var selectedRow = null
-var method = "POST"
-var userId = 0
+var selectedRow = null;
+var method = "POST";
+var userId = 0;
 const url = "http://5d8e5ea67162f10014a490ac.mockapi.io/contatos/";
+
 //envia novo user ou edita user
 function onFormSubmit() {
     if (method == "POST") {
@@ -32,7 +33,7 @@ function onFormSubmit() {
     }
     resetForm();
 }
-//insere
+//popula dados na tabela
 function insertNewRecord(data) {
     var table = document.getElementById("contatoLista").getElementsByTagName('tbody')[0];
     var newRow = table.insertRow(table.length);
@@ -43,11 +44,13 @@ function insertNewRecord(data) {
     cell3 = newRow.insertCell(2);
     cell3.innerHTML = data.telefone;
     cell4 = newRow.insertCell(3);
-    cell4.innerHTML = `<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#ExemploModalCentralizado" onClick="onEdit(${data.id})">Editar</button>
-    <button type="button" class="btn btn-default btn-sm" onClick="onDelete(${data.id})">Deletar</button>`;
+    cell4.innerHTML = `<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalCenter" onClick="onEdit(${data.id})">Editar</button>`
+    cell5 = newRow.insertCell(4);
+    cell5.innerHTML = `<button type="button" class="btn btn-danger btn-sm" onClick="onDelete(${data.id})">Deletar</button>`;
 }
 //reseta o formulario
 function resetForm() {
+    document.getElementById("TitleModalCenter").innerHTML = "Adicionar Contato";
     document.getElementById("nomeCompleto").value = "";
     document.getElementById("email").value = "";
     document.getElementById("telefone").value = "";
@@ -64,6 +67,7 @@ function reloadForm() {
 function onEdit(id) {
     userId = id;
     method = "PUT";
+    document.getElementById("TitleModalCenter").innerHTML = "Edidar Contato";
     axios.get(url + id)
         .then(response => {
             console.log(response)
@@ -107,7 +111,7 @@ window.onload = getContacts();
 function closeOneModal() {
 
     // get modal
-    const modal = document.getElementById("ExemploModalCentralizado");
+    const modal = document.getElementById("ModalCenter");
 
     // change state like in hidden modal
     modal.classList.remove('show');
