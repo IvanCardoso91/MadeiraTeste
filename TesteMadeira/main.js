@@ -3,7 +3,7 @@ var method = "POST";
 var userId = 0;
 const url = "http://5d8e5ea67162f10014a490ac.mockapi.io/contatos/";
 
-//pega contatos
+//envia requisição http para recuperar contatos existentes
 function getContacts() {
     axios.get(url)
         .then(response => {
@@ -16,6 +16,9 @@ function getContacts() {
                 }
                 insertContacts(data);
             }
+        })
+        .catch(error => {
+            alert('Falha na requisição');
         })
 };
 
@@ -51,29 +54,32 @@ function onEdit(id) {
     userId = id;
     method = "PUT";
     document.getElementById("TitleModalCenter").innerHTML = "Editar Contato";
-    axios.get(url + id)
+    axios.get(`${url}${id}`)
         .then(response => {
             document.getElementById("nomeCompleto").value = response.data.nome;
             document.getElementById("email").value = response.data.email;
             document.getElementById("telefone").value = response.data.telefone;
         })
+        .cacth(error => {
+            alert('Erro de requisição')
+        })
 }
 
 //valida se os campos foram preenchidos
 function validateFields(){
-
+    
     isValid = true;
 
     if(document.getElementById("nomeCompleto").value == ""){
-        alert('Preencha o campo Nome.')
+        alert('Preencha o campo Nome.');
         return false;
     }
     if(document.getElementById("email").value == ""){
-        alert('Preencha o campo E-mail.')
+        alert('Preencha o campo E-mail.');
         return false;
     }
     if(document.getElementById("telefone").value == "" || isNaN(document.getElementById("telefone").value)){
-        alert('Preencha o campo Telefone com números.')
+        alert('Preencha o campo Telefone com números.');
         return false;
     }
     return isValid;
@@ -82,7 +88,7 @@ function validateFields(){
 //adiciona novo contato ou edita contato
 function onFormSubmit() {
     if(validateFields()){
-        if (method == "POST") {
+        if (method === "POST") {
             if (selectedRow == null)
                 axios.post(url, {
                     nome: document.getElementById("nomeCompleto").value,
@@ -93,7 +99,10 @@ function onFormSubmit() {
                     reloadForm();
                     getContacts();
                     closeOneModal();
-                });
+                })
+                .catch(error => {
+                    alert('Erro ao enviar dados.')
+                })
         } else {
             axios.put(`${url}${userId}`, {
                     nome: document.getElementById("nomeCompleto").value,
@@ -104,7 +113,10 @@ function onFormSubmit() {
                     reloadForm();
                     getContacts();
                     closeOneModal();
-                });
+                })
+                .catch(error => {
+                    alert('Erro ao editar os dados')
+                })
         }
     }
 }
@@ -116,6 +128,9 @@ function onDelete(id) {
             .then(response => {
                 reloadForm();
                 getContacts();
+            })
+            .catch(error => {
+                alert('Erro ao deletar dado.')
             })
     }
 }
