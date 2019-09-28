@@ -36,7 +36,7 @@
                         </div>
                         <div class="modal-body">
                             <h1 class="text-center"></h1>
-                            <table>
+                            <table class="formulario">
                                 <tr class="d-flex justify-content-center">
                                     <td>
                                         <form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off" class="d-flex flex-column bd-highlight mb-3">
@@ -50,7 +50,7 @@
                                                 <input type="text" name="telefone" id="telefone" placeholder="Telefone">
                                             </div>
                                             <div>
-                                                <input type="submit" class="btn btn-success" value="Confirmar">
+                                                <button type="submit" class="btn btn-success">Confirmar</button>
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                                             </div>
                                         </form>
@@ -64,7 +64,7 @@
             <h1 class="text-left">Lista de contatos</h1>
             <table class="lista" id="contatoLista">
                 <thead>
-                    <tr class="teste">
+                    <tr>
                         <th>Nome</th>
                         <th>E-mail</th>
                         <th>Telefone</th>
@@ -72,12 +72,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <div>
-
-                    </div>
                 </tbody>
             </table>
         </div>
+    </div>
+    <div>
+        <p id="teste"></p>
     </div>
     <script src="main.js"></script>
 </body>

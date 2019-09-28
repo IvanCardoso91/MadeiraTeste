@@ -3,38 +3,26 @@ var method = "POST";
 var userId = 0;
 const url = "http://5d8e5ea67162f10014a490ac.mockapi.io/contatos/";
 
-//envia novo user ou edita user
-function onFormSubmit() {
-    if (method == "POST") {
-        if (selectedRow == null)
-            axios.post(url, {
-                nome: document.getElementById("nomeCompleto").value,
-                email: document.getElementById("email").value,
-                telefone: document.getElementById("telefone").value
-            })
-            .then(response => {
-                reloadForm();
-                getContacts();
-                closeOneModal();
-            });
-        else
-            updateRecord(formData);
-    } else {
-        axios.put(`${url}${userId}`, {
-                nome: document.getElementById("nomeCompleto").value,
-                email: document.getElementById("email").value,
-                telefone: document.getElementById("telefone").value
-            })
-            .then(response => {
-                reloadForm();
-                getContacts();
-                closeOneModal();
-            });
-    }
-    resetForm();
-}
+//pega contatos
+function getContacts() {
+    axios.get(url)
+        .then(response => {
+            for (i = 0; i < response.data.length; i++) {
+                var data = {
+                    id: response.data[i].id,
+                    nomeCompleto: response.data[i].nome,
+                    email: response.data[i].email,
+                    telefone: response.data[i].telefone,
+                }
+                insertContacts(data);
+            }
+        })
+};
+
+window.onload = getContacts();
+
 //popula dados na tabela
-function insertNewRecord(data) {
+function insertContacts(data) {
     var table = document.getElementById("contatoLista").getElementsByTagName('tbody')[0];
     var newRow = table.insertRow(table.length);
     cell1 = newRow.insertCell(0);
@@ -48,6 +36,7 @@ function insertNewRecord(data) {
     cell5 = newRow.insertCell(4);
     cell5.innerHTML = `<button type="button" class="btn btn-danger btn-sm" onClick="onDelete(${data.id})">Deletar</button>`;
 }
+
 //abre modal para adicionar contato
 function addContact() {
     document.getElementById("TitleModalCenter").innerHTML = "Adicionar Contato";
@@ -56,29 +45,73 @@ function addContact() {
     document.getElementById("telefone").value = "";
     selectedRow = null;
 }
-//reload do formularo
-function reloadForm() {
-    var Table = document.getElementById("contatoLista").getElementsByTagName('tbody')[0];
-    while (Table.hasChildNodes()) {
-        Table.removeChild(Table.firstChild);
-    }
-}
-//carrega contatos para editar
+
+//abre modal para editar contato
 function onEdit(id) {
     userId = id;
     method = "PUT";
-    document.getElementById("TitleModalCenter").innerHTML = "Edidar Contato";
+    document.getElementById("TitleModalCenter").innerHTML = "Editar Contato";
     axios.get(url + id)
         .then(response => {
-            console.log(response)
             document.getElementById("nomeCompleto").value = response.data.nome;
             document.getElementById("email").value = response.data.email;
             document.getElementById("telefone").value = response.data.telefone;
         })
 }
+
+//valida se os campos foram preenchidos
+function validateFields(){
+
+    isValid = true;
+
+    if(document.getElementById("nomeCompleto").value == ""){
+        alert('Preencha o campo Nome.')
+        return false;
+    }
+    if(document.getElementById("email").value == ""){
+        alert('Preencha o campo E-mail.')
+        return false;
+    }
+    if(document.getElementById("telefone").value == "" || isNaN(document.getElementById("telefone").value)){
+        alert('Preencha o campo Telefone com números.')
+        return false;
+    }
+    return isValid;
+}
+
+//adiciona novo contato ou edita contato
+function onFormSubmit() {
+    if(validateFields()){
+        if (method == "POST") {
+            if (selectedRow == null)
+                axios.post(url, {
+                    nome: document.getElementById("nomeCompleto").value,
+                    email: document.getElementById("email").value,
+                    telefone: document.getElementById("telefone").value
+                })
+                .then(response => {
+                    reloadForm();
+                    getContacts();
+                    closeOneModal();
+                });
+        } else {
+            axios.put(`${url}${userId}`, {
+                    nome: document.getElementById("nomeCompleto").value,
+                    email: document.getElementById("email").value,
+                    telefone: document.getElementById("telefone").value
+                })
+                .then(response => {
+                    reloadForm();
+                    getContacts();
+                    closeOneModal();
+                });
+        }
+    }
+}
+
 //deleta contatos
 function onDelete(id) {
-    if (confirm('Você quer deletar este contato?')) {
+    if (confirm('Tem certeza que deseja deletar este contato?')) {
         axios.delete(url + id)
             .then(response => {
                 reloadForm();
@@ -87,27 +120,14 @@ function onDelete(id) {
     }
 }
 
-//pega contatos
-function getContacts() {
-    axios.get(url)
-        .then(response => {
-            console.log(response.data);
-            for (i = 0; i < response.data.length; i++) {
-                var data = {
-                    id: response.data[i].id,
-                    nomeCompleto: response.data[i].nome,
-                    email: response.data[i].email,
-                    telefone: response.data[i].telefone,
-                }
-                insertNewRecord(data);
-            }
-        })
-};
+//reload do formulario
+function reloadForm() {
+    var Table = document.getElementById("contatoLista").getElementsByTagName('tbody')[0];
+    while (Table.hasChildNodes()) {
+        Table.removeChild(Table.firstChild);
+    }
+}
 
-window.onload = getContacts();
-
-
-//função para fechar modal sem jquery
 function closeOneModal() {
 
     // get modal
