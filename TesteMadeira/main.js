@@ -48,8 +48,8 @@ function insertNewRecord(data) {
     cell5 = newRow.insertCell(4);
     cell5.innerHTML = `<button type="button" class="btn btn-danger btn-sm" onClick="onDelete(${data.id})">Deletar</button>`;
 }
-//reseta o formulario
-function resetForm() {
+//abre modal para adicionar contato
+function addContact() {
     document.getElementById("TitleModalCenter").innerHTML = "Adicionar Contato";
     document.getElementById("nomeCompleto").value = "";
     document.getElementById("email").value = "";
